@@ -11,7 +11,8 @@
     "hours": "9:00 AM - 6:00 PM",
     "admission": "3,000 KRW",
     "website": "http://www.royalpalace.go.kr",
-    "color": "#ff6b6b"
+    "color": "#ff6b6b",
+    "image": "/png/1.png"
   },
   {
     "id": 2,
@@ -25,7 +26,8 @@
     "hours": "10:00 AM - 11:00 PM",
     "admission": "11,000 KRW",
     "website": "http://www.nseoultower.com",
-    "color": "#4ecdc4"
+    "color": "#4ecdc4",
+    "image": "/png/2.png"
   },
   {
     "id": 3,
@@ -39,7 +41,8 @@
     "hours": "10:00 AM - 10:00 PM",
     "admission": "Free",
     "website": null,
-    "color": "#ffe66d"
+    "color": "#ffe66d",
+    "image": "/png/3.png"
   },
   {
     "id": 4,
@@ -53,7 +56,8 @@
     "hours": "Open 24/7",
     "admission": "Free",
     "website": "http://hanok.seoul.go.kr",
-    "color": "#4ecdc4"
+    "color": "#4ecdc4",
+    "image": "/png/4.png"
   },
   {
     "id": 5,
@@ -67,7 +71,8 @@
     "hours": "10:00 AM - 10:00 PM",
     "admission": "Free (exhibitions may charge)",
     "website": "http://www.ddp.or.kr",
-    "color": "#ffe66d"
+    "color": "#ffe66d",
+    "image": "/png/5.png"
   },
   {
     "id": 6,
@@ -81,7 +86,8 @@
     "hours": "9:00 AM - 5:30 PM",
     "admission": "3,000 KRW (8,000 KRW with Secret Garden)",
     "website": "http://www.cdg.go.kr",
-    "color": "#ff6b6b"
+    "color": "#ff6b6b",
+    "image": "/png/6.png"
   },
   {
     "id": 7,
@@ -95,7 +101,8 @@
     "hours": "Open 24/7",
     "admission": "Free",
     "website": null,
-    "color": "#ffe66d"
+    "color": "#ffe66d",
+    "image": "/png/7.png"
   },
   {
     "id": 8,
@@ -109,7 +116,8 @@
     "hours": "Open 24/7",
     "admission": "Free",
     "website": "http://parks.seoul.go.kr",
-    "color": "#95e1d3"
+    "color": "#95e1d3",
+    "image": "/png/8.png"
   },
   {
     "id": 9,
@@ -123,7 +131,8 @@
     "hours": "10:00 AM - 9:00 PM",
     "admission": "Free",
     "website": null,
-    "color": "#4ecdc4"
+    "color": "#4ecdc4",
+    "image": "/png/9.png"
   },
   {
     "id": 10,
@@ -137,9 +146,10 @@
     "hours": "Open 24/7",
     "admission": "Free",
     "website": "http://hangang.seoul.go.kr",
-    "color": "#95e1d3"
+    "color": "#95e1d3",
+    "image": "/png/10.png"
   },
- {
+  {
     "id": 11,
     "name": "Lotte World Tower",
     "category": "culture",
@@ -151,7 +161,8 @@
     "hours": "10:00 AM - 10:00 PM",
     "admission": "27,000 KRW",
     "website": "http://www.lwt.co.kr",
-    "color": "#4ecdc4"
+    "color": "#4ecdc4",
+    "image": "/png/11.png"
   },
   {
     "id": 12,
@@ -165,7 +176,8 @@
     "hours": "Open 24/7 (most shops 9:00 AM - 6:00 PM)",
     "admission": "Free",
     "website": null,
-    "color": "#ffe66d"
+    "color": "#ffe66d",
+    "image": "/png/12.png"
   },
   {
     "id": 13,
@@ -179,7 +191,8 @@
     "hours": "9:30 AM - 6:00 PM",
     "admission": "Free",
     "website": "http://www.warmemo.or.kr",
-    "color": "#4ecdc4"
+    "color": "#4ecdc4",
+    "image": "/png/13.png"
   },
   {
     "id": 14,
@@ -193,7 +206,8 @@
     "hours": "Open 24/7",
     "admission": "Free",
     "website": null,
-    "color": "#ffe66d"
+    "color": "#ffe66d",
+    "image": "/png/14.png"
   },
   {
     "id": 15,
@@ -207,7 +221,8 @@
     "hours": "9:00 AM - 9:00 PM",
     "admission": "1,000 KRW",
     "website": "http://www.deoksugung.go.kr",
-    "color": "#ff6b6b"
+    "color": "#ff6b6b",
+    "image": "/png/15.png"
   },
   {
     "id": 16,
@@ -221,7 +236,8 @@
     "hours": "5:00 AM - 10:00 PM",
     "admission": "Free",
     "website": "http://www.kspo.or.kr",
-    "color": "#95e1d3"
+    "color": "#95e1d3",
+    "image": "/png/16.png"
   },
   {
     "id": 17,
@@ -235,7 +251,8 @@
     "hours": "4:00 AM - 9:00 PM",
     "admission": "Free",
     "website": "http://www.jogyesa.kr",
-    "color": "#4ecdc4"
+    "color": "#4ecdc4",
+    "image": "/png/17.png"
   },
   {
     "id": 18,
@@ -249,7 +266,8 @@
     "hours": "10:00 AM - 10:00 PM",
     "admission": "Free (Aquarium: 28,000 KRW)",
     "website": "http://www.coexmall.com",
-    "color": "#ffe66d"
+    "color": "#ffe66d",
+    "image": "/png/18.png"
   },
   {
     "id": 19,
@@ -263,7 +281,8 @@
     "hours": "Open 24/7",
     "admission": "Free",
     "website": "http://seoulforest.or.kr",
-    "color": "#95e1d3"
+    "color": "#95e1d3",
+    "image": "/png/19.png"
   },
   {
     "id": 20,
@@ -277,6 +296,7 @@
     "hours": "9:00 AM - 9:00 PM",
     "admission": "1,000 KRW",
     "website": "http://cgg.cha.go.kr",
-    "color": "#ff6b6b"
+    "color": "#ff6b6b",
+    "image": "/png/20.png"
   }
 ]
