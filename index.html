@@ -190,6 +190,35 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .place-card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 0;
+        }
+
+        .place-card:hover .place-card-bg {
+            opacity: 0.4;
+            transform: scale(1.05);
+        }
+
+        .place-card-content {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .place-card::before {
@@ -217,22 +246,27 @@
             font-size: 1.8rem;
             margin-bottom: 15px;
             color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .place-card .category {
             display: inline-block;
             padding: 5px 15px;
-            background: rgba(102, 126, 234, 0.2);
+            background: rgba(102, 126, 234, 0.3);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
             font-size: 0.9rem;
             margin-bottom: 15px;
-            color: #667eea;
+            color: #8fa6ff;
+            border: 1px solid rgba(102, 126, 234, 0.4);
         }
 
         .place-card p {
-            color: #b0b0b0;
+            color: #d0d0d0;
             line-height: 1.6;
             margin-bottom: 20px;
+            flex: 1;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .place-card .distance {
@@ -474,7 +508,8 @@
                         "hours": "9:00 AM - 6:00 PM",
                         "admission": "3,000 KRW",
                         "website": "http://www.royalpalace.go.kr",
-                        "color": "#ff6b6b"
+                        "color": "#ff6b6b",
+                        "image": "/png/1.png"
                     }
                 ];
                 initializePlaces();
@@ -632,13 +667,16 @@
                 card.className = 'place-card';
                 card.style.animationDelay = `${index * 0.1}s`;
                 card.innerHTML = `
-                    <h3>${place.name}</h3>
-                    <span class="category">${place.category}</span>
-                    ${place.distance ? `<div class="distance">${place.distance} km away</div>` : ''}
-                    <p>${place.description}</p>
-                    <div class="details">
-                        <span class="time">${place.hours}</span>
-                        <button class="visit-btn" onclick="focusPlace(${place.coordinates.latitude}, ${place.coordinates.longitude})">View on Map</button>
+                    <div class="place-card-bg" style="background-image: url('${place.image}')"></div>
+                    <div class="place-card-content">
+                        <h3>${place.name}</h3>
+                        <span class="category">${place.category}</span>
+                        ${place.distance ? `<div class="distance">${place.distance} km away</div>` : ''}
+                        <p>${place.description}</p>
+                        <div class="details">
+                            <span class="time">${place.hours}</span>
+                            <button class="visit-btn" onclick="focusPlace(${place.coordinates.latitude}, ${place.coordinates.longitude})">View on Map</button>
+                        </div>
                     </div>
                 `;
                 
