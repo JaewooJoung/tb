@@ -1,22 +1,7 @@
 [
     {
-    "id": 0,
-    "name": "모베이스전자",
-    "category": "palace",
-    "coordinates": {
-      "latitude": 37.579617,
-      "longitude": 126.977041
-    },
-    "description": "The largest and most iconic of Seoul's Five Grand Palaces, featuring stunning architecture and the famous changing of the guard ceremony.",
-    "hours": "9:00 AM - 6:00 PM",
-    "admission": "3,000 KRW",
-    "website": "http://www.royalpalace.go.kr",
-    "color": "#ff6b6b",
-    "image": "/png/1.png"
-  },
-  {
     "id": 1,
-    "name": "Gyeongbokgung Palace",
+    "name": "모베이스전자",
     "category": "palace",
     "coordinates": {
       "latitude": 37.579617,
@@ -313,5 +298,20 @@
     "website": "http://cgg.cha.go.kr",
     "color": "#ff6b6b",
     "image": "/png/20.png"
+  },
+  {
+    "id": 21,
+    "name": "Gyeongbokgung Palace",
+    "category": "palace",
+    "coordinates": {
+      "latitude": 37.579617,
+      "longitude": 126.977041
+    },
+    "description": "The largest and most iconic of Seoul's Five Grand Palaces, featuring stunning architecture and the famous changing of the guard ceremony.",
+    "hours": "9:00 AM - 6:00 PM",
+    "admission": "3,000 KRW",
+    "website": "http://www.royalpalace.go.kr",
+    "color": "#ff6b6b",
+    "image": "/png/21.png"
   }
 ]
