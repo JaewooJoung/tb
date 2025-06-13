@@ -1,0 +1,282 @@
+[
+  {
+    "id": 1,
+    "name": "Gyeongbokgung Palace",
+    "category": "palace",
+    "coordinates": {
+      "latitude": 37.579617,
+      "longitude": 126.977041
+    },
+    "description": "The largest and most iconic of Seoul's Five Grand Palaces, featuring stunning architecture and the famous changing of the guard ceremony.",
+    "hours": "9:00 AM - 6:00 PM",
+    "admission": "3,000 KRW",
+    "website": "http://www.royalpalace.go.kr",
+    "color": "#ff6b6b"
+  },
+  {
+    "id": 2,
+    "name": "N Seoul Tower",
+    "category": "culture",
+    "coordinates": {
+      "latitude": 37.551169,
+      "longitude": 126.988227
+    },
+    "description": "Iconic observation tower offering panoramic views of Seoul, especially beautiful at sunset and night.",
+    "hours": "10:00 AM - 11:00 PM",
+    "admission": "11,000 KRW",
+    "website": "http://www.nseoultower.com",
+    "color": "#4ecdc4"
+  },
+  {
+    "id": 3,
+    "name": "Myeongdong",
+    "category": "shopping",
+    "coordinates": {
+      "latitude": 37.563841,
+      "longitude": 126.985302
+    },
+    "description": "Seoul's premier shopping district, famous for cosmetics, fashion, street food, and vibrant nightlife.",
+    "hours": "10:00 AM - 10:00 PM",
+    "admission": "Free",
+    "website": null,
+    "color": "#ffe66d"
+  },
+  {
+    "id": 4,
+    "name": "Bukchon Hanok Village",
+    "category": "culture",
+    "coordinates": {
+      "latitude": 37.582651,
+      "longitude": 126.983546
+    },
+    "description": "Traditional Korean village with hundreds of hanoks (traditional houses) dating back to the Joseon Dynasty.",
+    "hours": "Open 24/7",
+    "admission": "Free",
+    "website": "http://hanok.seoul.go.kr",
+    "color": "#4ecdc4"
+  },
+  {
+    "id": 5,
+    "name": "Dongdaemun Design Plaza",
+    "category": "shopping",
+    "coordinates": {
+      "latitude": 37.567383,
+      "longitude": 127.009381
+    },
+    "description": "Futuristic landmark designed by Zaha Hadid, hosting exhibitions, fashion shows, and late-night shopping.",
+    "hours": "10:00 AM - 10:00 PM",
+    "admission": "Free (exhibitions may charge)",
+    "website": "http://www.ddp.or.kr",
+    "color": "#ffe66d"
+  },
+  {
+    "id": 6,
+    "name": "Changdeokgung Palace",
+    "category": "palace",
+    "coordinates": {
+      "latitude": 37.579432,
+      "longitude": 126.991065
+    },
+    "description": "UNESCO World Heritage site known for its Secret Garden and harmonious integration with nature.",
+    "hours": "9:00 AM - 5:30 PM",
+    "admission": "3,000 KRW (8,000 KRW with Secret Garden)",
+    "website": "http://www.cdg.go.kr",
+    "color": "#ff6b6b"
+  },
+  {
+    "id": 7,
+    "name": "Gangnam District",
+    "category": "shopping",
+    "coordinates": {
+      "latitude": 37.517305,
+      "longitude": 127.047502
+    },
+    "description": "Upscale district made famous by 'Gangnam Style', featuring luxury shopping, dining, and entertainment.",
+    "hours": "Open 24/7",
+    "admission": "Free",
+    "website": null,
+    "color": "#ffe66d"
+  },
+  {
+    "id": 8,
+    "name": "Namsan Park",
+    "category": "nature",
+    "coordinates": {
+      "latitude": 37.550925,
+      "longitude": 126.990945
+    },
+    "description": "Beautiful urban park surrounding N Seoul Tower, offering hiking trails and cherry blossoms in spring.",
+    "hours": "Open 24/7",
+    "admission": "Free",
+    "website": "http://parks.seoul.go.kr",
+    "color": "#95e1d3"
+  },
+  {
+    "id": 9,
+    "name": "Insadong",
+    "category": "culture",
+    "coordinates": {
+      "latitude": 37.571965,
+      "longitude": 126.986076
+    },
+    "description": "Traditional culture street filled with art galleries, antique shops, traditional tea houses, and craft stores.",
+    "hours": "10:00 AM - 9:00 PM",
+    "admission": "Free",
+    "website": null,
+    "color": "#4ecdc4"
+  },
+  {
+    "id": 10,
+    "name": "Han River Parks",
+    "category": "nature",
+    "coordinates": {
+      "latitude": 37.528877,
+      "longitude": 126.934294
+    },
+    "description": "Scenic riverside parks perfect for cycling, picnics, and enjoying Seoul's skyline, especially at sunset.",
+    "hours": "Open 24/7",
+    "admission": "Free",
+    "website": "http://hangang.seoul.go.kr",
+    "color": "#95e1d3"
+  },
+ {
+    "id": 11,
+    "name": "Lotte World Tower",
+    "category": "culture",
+    "coordinates": {
+      "latitude": 37.512573,
+      "longitude": 127.102558
+    },
+    "description": "Korea's tallest building with observation deck on 117-123F offering breathtaking views of Seoul.",
+    "hours": "10:00 AM - 10:00 PM",
+    "admission": "27,000 KRW",
+    "website": "http://www.lwt.co.kr",
+    "color": "#4ecdc4"
+  },
+  {
+    "id": 12,
+    "name": "Namdaemun Market",
+    "category": "shopping",
+    "coordinates": {
+      "latitude": 37.559621,
+      "longitude": 126.977618
+    },
+    "description": "Korea's largest traditional market with over 600 years of history, selling everything from clothes to souvenirs.",
+    "hours": "Open 24/7 (most shops 9:00 AM - 6:00 PM)",
+    "admission": "Free",
+    "website": null,
+    "color": "#ffe66d"
+  },
+  {
+    "id": 13,
+    "name": "War Memorial of Korea",
+    "category": "culture",
+    "coordinates": {
+      "latitude": 37.535874,
+      "longitude": 126.977028
+    },
+    "description": "Comprehensive museum showcasing Korea's military history with indoor and outdoor exhibitions.",
+    "hours": "9:30 AM - 6:00 PM",
+    "admission": "Free",
+    "website": "http://www.warmemo.or.kr",
+    "color": "#4ecdc4"
+  },
+  {
+    "id": 14,
+    "name": "Hongdae",
+    "category": "shopping",
+    "coordinates": {
+      "latitude": 37.557527,
+      "longitude": 126.925381
+    },
+    "description": "Youthful district near Hongik University, known for indie culture, street performances, clubs, and cafes.",
+    "hours": "Open 24/7",
+    "admission": "Free",
+    "website": null,
+    "color": "#ffe66d"
+  },
+  {
+    "id": 15,
+    "name": "Deoksugung Palace",
+    "category": "palace",
+    "coordinates": {
+      "latitude": 37.565759,
+      "longitude": 126.975227
+    },
+    "description": "Uniquely features both Korean traditional and Western-style architecture, famous for its stone wall road.",
+    "hours": "9:00 AM - 9:00 PM",
+    "admission": "1,000 KRW",
+    "website": "http://www.deoksugung.go.kr",
+    "color": "#ff6b6b"
+  },
+  {
+    "id": 16,
+    "name": "Olympic Park",
+    "category": "nature",
+    "coordinates": {
+      "latitude": 37.520814,
+      "longitude": 127.121458
+    },
+    "description": "Built for the 1988 Olympics, now a vast park with sculptures, walking paths, and sports facilities.",
+    "hours": "5:00 AM - 10:00 PM",
+    "admission": "Free",
+    "website": "http://www.kspo.or.kr",
+    "color": "#95e1d3"
+  },
+  {
+    "id": 17,
+    "name": "Jogyesa Temple",
+    "category": "culture",
+    "coordinates": {
+      "latitude": 37.574166,
+      "longitude": 126.981944
+    },
+    "description": "The chief temple of Korean Buddhism, beautiful during Buddha's birthday with thousands of lanterns.",
+    "hours": "4:00 AM - 9:00 PM",
+    "admission": "Free",
+    "website": "http://www.jogyesa.kr",
+    "color": "#4ecdc4"
+  },
+  {
+    "id": 18,
+    "name": "COEX Mall",
+    "category": "shopping",
+    "coordinates": {
+      "latitude": 37.511395,
+      "longitude": 127.058969
+    },
+    "description": "Asia's largest underground shopping mall featuring the famous Starfield Library and COEX Aquarium.",
+    "hours": "10:00 AM - 10:00 PM",
+    "admission": "Free (Aquarium: 28,000 KRW)",
+    "website": "http://www.coexmall.com",
+    "color": "#ffe66d"
+  },
+  {
+    "id": 19,
+    "name": "Seoul Forest",
+    "category": "nature",
+    "coordinates": {
+      "latitude": 37.544495,
+      "longitude": 127.037716
+    },
+    "description": "Large park with deer feeding area, butterfly conservatory, and beautiful walking trails along the Han River.",
+    "hours": "Open 24/7",
+    "admission": "Free",
+    "website": "http://seoulforest.or.kr",
+    "color": "#95e1d3"
+  },
+  {
+    "id": 20,
+    "name": "Changgyeonggung Palace",
+    "category": "palace",
+    "coordinates": {
+      "latitude": 37.579977,
+      "longitude": 126.994929
+    },
+    "description": "Often overlooked palace with beautiful gardens, greenhouse, and peaceful atmosphere away from crowds.",
+    "hours": "9:00 AM - 9:00 PM",
+    "admission": "1,000 KRW",
+    "website": "http://cgg.cha.go.kr",
+    "color": "#ff6b6b"
+  }
+]
