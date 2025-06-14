@@ -27,7 +27,7 @@
     "admission": "11,000 KRW",
     "website": "https://jaewoojoung.github.io/tb/nst.html",
     "color": "#4ecdc4",
-    "image": "/png/2.png"
+    "image": "https://jaewoojoung.github.io/tb/png/2.png"
   },
   {
     "id": 3,
@@ -42,7 +42,7 @@
     "admission": "Free",
     "website": null,
     "color": "#ffe66d",
-    "image": "/png/3.png"
+    "image": "https://jaewoojoung.github.io/tb/png/3.png"
   },
   {
     "id": 4,
@@ -57,7 +57,7 @@
     "admission": "Free",
     "website": "http://hanok.seoul.go.kr",
     "color": "#4ecdc4",
-    "image": "/png/4.png"
+    "image": "https://jaewoojoung.github.io/tb/png/4.png"
   },
   {
     "id": 5,
@@ -72,7 +72,7 @@
     "admission": "Free (exhibitions may charge)",
     "website": "http://www.ddp.or.kr",
     "color": "#ffe66d",
-    "image": "/png/5.png"
+    "image": "https://jaewoojoung.github.io/tb/png/5.png"
   },
   {
     "id": 6,
@@ -87,7 +87,7 @@
     "admission": "3,000 KRW (8,000 KRW with Secret Garden)",
     "website": "http://www.cdg.go.kr",
     "color": "#ff6b6b",
-    "image": "/png/6.png"
+    "image": "https://jaewoojoung.github.io/tb/png/6.png"
   },
   {
     "id": 7,
@@ -102,7 +102,7 @@
     "admission": "Free",
     "website": null,
     "color": "#ffe66d",
-    "image": "/png/7.png"
+    "image": "https://jaewoojoung.github.io/tb/png/7.png"
   },
   {
     "id": 8,
@@ -117,7 +117,7 @@
     "admission": "Free",
     "website": "http://parks.seoul.go.kr",
     "color": "#95e1d3",
-    "image": "/png/8.png"
+    "image": "https://jaewoojoung.github.io/tb/png/8.png"
   },
   {
     "id": 9,
@@ -132,7 +132,7 @@
     "admission": "Free",
     "website": null,
     "color": "#4ecdc4",
-    "image": "/png/9.png"
+    "image": "https://jaewoojoung.github.io/tb/png/9.png"
   },
   {
     "id": 10,
@@ -147,7 +147,7 @@
     "admission": "Free",
     "website": "http://hangang.seoul.go.kr",
     "color": "#95e1d3",
-    "image": "/png/10.png"
+    "image": "https://jaewoojoung.github.io/tb/png/10.png"
   },
   {
     "id": 11,
@@ -162,7 +162,7 @@
     "admission": "27,000 KRW",
     "website": "http://www.lwt.co.kr",
     "color": "#4ecdc4",
-    "image": "/png/11.png"
+    "image": "https://jaewoojoung.github.io/tb/png/11.png"
   },
   {
     "id": 12,
@@ -177,7 +177,7 @@
     "admission": "Free",
     "website": null,
     "color": "#ffe66d",
-    "image": "/png/12.png"
+    "image": "https://jaewoojoung.github.io/tb/png/12.png"
   },
   {
     "id": 13,
@@ -192,7 +192,7 @@
     "admission": "Free",
     "website": "http://www.warmemo.or.kr",
     "color": "#4ecdc4",
-    "image": "/png/13.png"
+    "image": "https://jaewoojoung.github.io/tb/png/13.png"
   },
   {
     "id": 14,
@@ -207,7 +207,7 @@
     "admission": "Free",
     "website": null,
     "color": "#ffe66d",
-    "image": "/png/14.png"
+    "image": "https://jaewoojoung.github.io/tb/png/14.png"
   },
   {
     "id": 15,
@@ -222,7 +222,7 @@
     "admission": "1,000 KRW",
     "website": "http://www.deoksugung.go.kr",
     "color": "#ff6b6b",
-    "image": "/png/15.png"
+    "image": "https://jaewoojoung.github.io/tb/png/15.png"
   },
   {
     "id": 16,
@@ -237,7 +237,7 @@
     "admission": "Free",
     "website": "http://www.kspo.or.kr",
     "color": "#95e1d3",
-    "image": "/png/16.png"
+    "image": "https://jaewoojoung.github.io/tb/png/16.png"
   },
   {
     "id": 17,
@@ -252,7 +252,7 @@
     "admission": "Free",
     "website": "http://www.jogyesa.kr",
     "color": "#4ecdc4",
-    "image": "/png/17.png"
+    "image": "https://jaewoojoung.github.io/tb/png/17.png"
   },
   {
     "id": 18,
@@ -267,7 +267,7 @@
     "admission": "Free (Aquarium: 28,000 KRW)",
     "website": "http://www.coexmall.com",
     "color": "#ffe66d",
-    "image": "/png/18.png"
+    "image": "https://jaewoojoung.github.io/tb/png/18.png"
   },
   {
     "id": 19,
@@ -282,7 +282,7 @@
     "admission": "Free",
     "website": "http://seoulforest.or.kr",
     "color": "#95e1d3",
-    "image": "/png/19.png"
+    "image": "https://jaewoojoung.github.io/tb/png/19.png"
   },
   {
     "id": 20,
@@ -297,7 +297,7 @@
     "admission": "1,000 KRW",
     "website": "http://cgg.cha.go.kr",
     "color": "#ff6b6b",
-    "image": "/png/20.png"
+    "image": "https://jaewoojoung.github.io/tb/png/20.png"
   },
   {
     "id": 21,
@@ -312,6 +312,6 @@
     "admission": "3,000 KRW",
     "website": "http://www.royalpalace.go.kr",
     "color": "#ff6b6b",
-    "image": "/png/21.png"
+    "image": "https://jaewoojoung.github.io/tb/png/21.png"
   }
 ]
