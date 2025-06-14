@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Details - Seoul Tour Guide</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #333;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            min-height: 500px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            margin-top: 70px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.3) 0%, rgba(10, 10, 10, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 60px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .place-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .place-category {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(102, 126, 234, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #8fa6ff;
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            text-transform: capitalize;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 0;
+            background: #111111;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .info-card h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .info-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .info-content p {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        /* Map Section */
+        .map-container {
+            background: #111111;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+            margin-bottom: 60px;
+        }
+
+        #detail-map {
+            width: 100%;
+            height: 400px;
+        }
+
+        /* Description Section */
+        .description-section {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .description-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description-section p {
+            color: #d0d0d0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .action-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Weather Widget */
+        .weather-widget {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .weather-widget h3 {
+            margin-bottom: 20px;
+            color: #b0b0b0;
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .weather-icon {
+            width: 64px;
+            height: 64px;
+        }
+
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .weather-desc {
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 50px 0;
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer p {
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .place-title {
+                font-size: 2.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .info-card {
+                padding: 30px 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Error State */
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff5252;
+        }
+
+        .error-content p {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="back-btn">
+                <span>←</span> Back to All Places
+            </a>
+        </div>
+    </nav>
+
+    <!-- Dynamic Content Container -->
+    <div id="content"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p> 🚀 2025 SNQ ASH Tour Guide!<br> 🛬 The Ultimate Adventure to Seoul! 🛫 <br> by Jaewoo </p>
+        </div>
+    </footer>
+
+    <script>
+        // Places data (same as in main page)
+        const places = [
+            {
+                "id": 1,
+                "name": "MOBASE(모베이스전자)",
+                "category": "business",
+                "coordinates": {
+                    "latitude": 37.2372886,
+                    "longitude": 126.9840504
+                },
+                "description": "156번길 100 Saneop-ro, Gwonseon-gu, Suwon-si, Gyeonggi-do, South Korea",
+                "hours": "9:00 AM - 6:00 PM",
+                "admission": "Volvo AB",
+                "website": "http://www.mobaseelec.com/",
+                "color": "#ff6b6b",
+                "image": "https://jaewoojoung.github.io/tb/png/1.png",
+                "detailedDescription": "MOBASE Electronics is a key business location in Suwon, serving as an important center for electronic manufacturing and technology development. The facility represents modern Korean industrial capabilities and innovation."
+            },
+            {
+                "id": 2,
+                "name": "N Seoul Tower",
+                "category": "culture",
+                "coordinates": {
+                    "latitude": 37.551169,
+                    "longitude": 126.988227
+                },
+                "description": "Iconic observation tower offering panoramic views of Seoul, especially beautiful at sunset and night.",
+                "hours": "10:00 AM - 11:00 PM",
+                "admission": "11,000 KRW",
+                "website": null,
+                "color": "#4ecdc4",
+                "image": "https://jaewoojoung.github.io/tb/png/2.png",
+                "detailedDescription": "N Seoul Tower, officially the YTN Seoul Tower and commonly known as Namsan Tower, is a communication and observation tower located on Namsan Mountain in central Seoul. Built in 1971, the tower has become an iconic symbol of Seoul and offers breathtaking 360-degree views of the city. The tower features restaurants, cafes, and the famous 'Locks of Love' where couples attach padlocks as a symbol of their love."
+            },
+            {
+                "id": 3,
+                "name": "Myeongdong",
+                "category": "shopping",
+                "coordinates": {
+                    "latitude": 37.563841,
+                    "longitude": 126.985302
+                },
+                "description": "Seoul's premier shopping district, famous for cosmetics, fashion, street food, and vibrant nightlife.",
+                "hours": "10:00 AM - 10:00 PM",
+                "admission": "Free",
+                "website": null,
+                "color": "#ffe66d",
+                "image": "https://jaewoojoung.github.io/tb/png/3.png",
+                "detailedDescription": "Myeongdong is one of Seoul's primary shopping districts featuring mid-to-high priced retail stores and international brand outlets. The area is particularly famous for Korean cosmetics shops, with major Korean beauty brands having flagship stores here. Street food vendors line the main thoroughfare, offering Korean snacks like tteokbokki, hotteok, and grilled seafood. The district transforms at night with neon lights and bustling crowds."
+            },
+            {
+                "id": 4,
+                "name": "Bukchon Hanok Village",
+                "category": "culture",
+                "coordinates": {
+                    "latitude": 37.582651,
+                    "longitude": 126.983546
+                },
+                "description": "Traditional Korean village with hundreds of hanoks (traditional houses) dating back to the Joseon Dynasty.",
+                "hours": "Open 24/7",
+                "admission": "Free",
+                "website": "http://hanok.seoul.go.kr",
+                "color": "#4ecdc4",
+                "image": "https://jaewoojoung.github.io/tb/png/4.png",
+                "detailedDescription": "Bukchon Hanok Village is a Korean traditional village situated between Gyeongbok Palace, Changdeok Palace and Jongmyo Shrine. The village consists of many alleys, hanok (traditional Korean houses), and is preserved to show a 600-year-old urban environment. Many of the houses now operate as cultural centers, guesthouses, restaurants and tea houses, providing visitors with an opportunity to experience traditional Korean culture."
+            },
+            {
+                "id": 5,
+                "name": "Dongdaemun Design Plaza",
+                "category": "shopping",
+                "coordinates": {
+                    "latitude": 37.567383,
+                    "longitude": 127.009381
+                },
+                "description": "Futuristic landmark designed by Zaha Hadid, hosting exhibitions, fashion shows, and late-night shopping.",
+                "hours": "10:00 AM - 10:00 PM",
+                "admission": "Free (exhibitions may charge)",
+                "website": "http://www.ddp.or.kr",
+                "color": "#ffe66d",
+                "image": "https://jaewoojoung.github.io/tb/png/5.png",
+                "detailedDescription": "The Dongdaemun Design Plaza (DDP) is a major urban development landmark designed by world-renowned architect Zaha Hadid. Its neofuturistic design features powerful curves and non-orthogonal geometry. The plaza houses exhibition spaces, design labs, creative markets, and the Dongdaemun History & Culture Park. It's a hub for design-related shows and conferences, and the surrounding area features 24-hour shopping complexes."
+            },
+            {
+                "id": 6,
+                "name": "Changdeokgung Palace",
+                "category": "palace",
+                "coordinates": {
+                    "latitude": 37.579432,
+                    "longitude": 126.991065
+                },
+                "description": "UNESCO World Heritage site known for its Secret Garden and harmonious integration with nature.",
+                "hours": "9:00 AM - 5:30 PM",
+                "admission": "3,000 KRW (8,000 KRW with Secret Garden)",
+                "website": "http://www.cdg.go.kr",
+                "color": "#ff6b6b",
+                "image": "https://jaewoojoung.github.io/tb/png/6.png",
+                "detailedDescription": "Changdeokgung Palace, also known as Changdeok Palace, is set within a large park and is one of the 'Five Grand Palaces' built by the kings of the Joseon Dynasty. The palace is renowned for its beautiful Secret Garden (Huwon), a 78-acre garden which was originally constructed for the royal family. The garden features a lotus pond, pavilions, and landscaped lawns, trees, and flowers. The palace complex exemplifies traditional Korean palace architecture and garden design."
+            },
+            {
+                "id": 7,
+                "name": "Gangnam District",
+                "category": "shopping",
+                "coordinates": {
+                    "latitude": 37.517305,
+                    "longitude": 127.047502
+                },
+                "description": "Upscale district made famous by 'Gangnam Style', featuring luxury shopping, dining, and entertainment.",
+                "hours": "Open 24/7",
+                "admission": "Free",
+                "website": null,
+                "color": "#ffe66d",
+                "image": "https://jaewoojoung.github.io/tb/png/7.png",
+                "detailedDescription": "Gangnam District is Seoul's upscale, modern center of business, fashion, and entertainment. Made globally famous by Psy's 'Gangnam Style,' the area is known for its luxury boutiques, high-end restaurants, and vibrant nightlife. The district houses many of Korea's major corporations, luxury department stores, and the famous COEX complex. Gangnam's tree-lined streets feature everything from trendy cafes to plastic surgery clinics, representing modern Seoul's aspirational lifestyle."
+            },
+            {
+                "id": 8,
+                "name": "Namsan Park",
+                "category": "nature",
+                "coordinates": {
+                    "latitude": 37.550925,
+                    "longitude": 126.990945
+                },
+                "description": "Beautiful urban park surrounding N Seoul Tower, offering hiking trails and cherry blossoms in spring.",
+                "hours": "Open 24/7",
+                "admission": "Free",
+                "website": "http://parks.seoul.go.kr",
+                "color": "#95e1d3",
+                "image": "https://jaewoojoung.github.io/tb/png/8.png",
+                "detailedDescription": "Namsan Park is a large public park in the heart of Seoul, offering a natural retreat from the bustling city. The park features well-maintained hiking trails, exercise equipment, and various recreational facilities. During spring, the cherry blossoms create a spectacular display, while autumn brings vibrant fall colors. The park is home to N Seoul Tower and offers multiple scenic viewpoints of the city. It's a popular spot for both tourists and locals seeking outdoor activities."
+            },
+            {
+                "id": 9,
+                "name": "Insadong",
+                "category": "culture",
+                "coordinates": {
+                    "latitude": 37.571965,
+                    "longitude": 126.986076
+                },
+                "description": "Traditional culture street filled with art galleries, antique shops, traditional tea houses, and craft stores.",
+                "hours": "10:00 AM - 9:00 PM",
+                "admission": "Free",
+                "website": null,
+                "color": "#4ecdc4",
+                "image": "https://jaewoojoung.github.io/tb/png/9.png",
+                "detailedDescription": "Insadong is the cultural heart of Seoul, offering a unique blend of historical traditions and modern artistic expressions. The main street and its alleys are filled with art galleries showcasing traditional and contemporary Korean art, antique shops selling rare artifacts, and stores specializing in traditional crafts like hanji (Korean paper), pottery, and calligraphy supplies. Traditional tea houses offer a peaceful respite where visitors can experience Korean tea culture."
+            },
+            {
+                "id": 10,
+                "name": "Han River Parks",
+                "category": "nature",
+                "coordinates": {
+                    "latitude": 37.528877,
+                    "longitude": 126.934294
+                },
+                "description": "Scenic riverside parks perfect for cycling, picnics, and enjoying Seoul's skyline, especially at sunset.",
+                "hours": "Open 24/7",
+                "admission": "Free",
+                "website": "http://hangang.seoul.go.kr",
+                "color": "#95e1d3",
+                "image": "https://jaewoojoung.github.io/tb/png/10.png",
+                "detailedDescription": "The Han River Parks consist of 12 districts along the Han River, offering vast green spaces and recreational facilities in the heart of Seoul. These parks feature bicycle paths, sports facilities, swimming pools, and restaurants. Popular activities include cycling, picnicking (especially with chicken and beer), water sports, and watching the sunset. The parks host various festivals throughout the year and provide stunning views of Seoul's skyline, particularly beautiful when illuminated at night."
+            },
+            {
+                "id": 11,
+                "name": "Lotte World Tower",
+                "category": "culture",
+                "coordinates": {
+                    "latitude": 37.512573,
+                    "longitude": 127.102558
+                },
+                "description": "Korea's tallest building with observation deck on 117-123F offering breathtaking views of Seoul.",
+                "hours": "10:00 AM - 10:00 PM",
+                "admission": "27,000 KRW",
+                "website": "http://www.lwt.co.kr",
+                "color": "#4ecdc4",
+                "image": "https://jaewoojoung.github.io/tb/png/11.png",
+                "detailedDescription": "Lotte World Tower is a 123-floor, 555-meter supertall skyscraper and currently the tallest building in South Korea. The tower features Seoul Sky, an observation deck spanning floors 117-123, offering spectacular 360-degree views of the entire city. The building houses luxury hotels, private offices, retail outlets, and residences. The observation deck includes a glass floor section, outdoor terrace, and cafe, making it a must-visit destination for panoramic views of Seoul."
+            },
+            {
+                "id": 12,
+                "name": "Namdaemun Market",
+                "category": "shopping",
+                "coordinates": {
+                    "latitude": 37.559621,
+                    "longitude": 126.977618
+                },
+                "description": "Korea's largest traditional market with over 600 years of history, selling everything from clothes to souvenirs.",
+                "hours": "Open 24/7 (most shops 9:00 AM - 6:00 PM)",
+                "admission": "Free",
+                "website": null,
+                "color": "#ffe66d",
+                "image": "https://jaewoojoung.github.io/tb/png/12.png",
+                "detailedDescription": "Namdaemun Market is the oldest and largest traditional market in Korea, with a history dating back to 1414. The market consists of numerous buildings and street stalls, selling everything from clothing and accessories to ginseng, imported goods, and traditional Korean souvenirs. The market is famous for its wholesale prices, variety of goods, and authentic Korean market atmosphere. Food stalls throughout the market offer traditional Korean dishes at affordable prices."
+            },
+            {
+                "id": 13,
+                "name": "War Memorial of Korea",
+                "category": "culture",
+                "coordinates": {
+                    "latitude": 37.535874,
+                    "longitude": 126.977028
+                },
+                "description": "Comprehensive museum showcasing Korea's military history with indoor and outdoor exhibitions.",
+                "hours": "9:30 AM - 6:00 PM",
+                "admission": "Free",
+                "website": "http://www.warmemo.or.kr",
+                "color": "#4ecdc4",
+                "image": "https://jaewoojoung.github.io/tb/png/13.png",
+                "detailedDescription": "The War Memorial of Korea is a massive museum complex dedicated to the military history of Korea. It features six indoor exhibition rooms and an outdoor exhibition area displaying various military equipment. The museum covers conflicts from ancient times through the Korean War to modern peacekeeping operations. The memorial serves both as a museum and a monument to those who died in military service. The outdoor exhibition includes tanks, aircraft, and missiles from various eras."
+            },
+            {
+                "id": 14,
+                "name": "Hongdae",
+                "category": "shopping",
+                "coordinates": {
+                    "latitude": 37.557527,
+                    "longitude": 126.925381
+                },
+                "description": "Youthful district near Hongik University, known for indie culture, street performances, clubs, and cafes.",
+                "hours": "Open 24/7",
+                "admission": "Free",
+                "website": null,
+                "color": "#ffe66d",
+                "image": "https://jaewoojoung.github.io/tb/png/14.png",
+                "detailedDescription": "Hongdae, the area around Hongik University, is Seoul's youth culture and indie arts hub. Known for its urban street art, indie music scene, clubs, and unique cafes, the area attracts young locals and tourists alike. Street performances happen regularly, especially on weekends, and the area features numerous live music venues showcasing indie bands. The district is also famous for its themed cafes, vintage shops, and vibrant nightlife that continues until dawn."
+            },
+            {
+                "id": 15,
+                "name": "Deoksugung Palace",
+                "category": "palace",
+                "coordinates": {
+                    "latitude": 37.565759,
+                    "longitude": 126.975227
+                },
+                "description": "Uniquely features both Korean traditional and Western-style architecture, famous for its stone wall road.",
+                "hours": "9:00 AM - 9:00 PM",
+                "admission": "1,000 KRW",
+                "website": "http://www.deoksugung.go.kr",
+                "color": "#ff6b6b",
+                "image": "https://jaewoojoung.github.io/tb/png/15.png",
+                "detailedDescription": "Deoksugung Palace uniquely combines traditional Korean architecture with Western-style buildings, reflecting Korea's turbulent modern history. The palace is famous for its stone wall road (Deoksugung Doldam-gil), considered one of Seoul's most romantic walking paths, especially beautiful in autumn. The palace hosts a changing of the guard ceremony three times daily. The Western-style buildings within the complex, including Seokjojeon Hall, showcase neoclassical architecture rare in Korean palaces."
+            },
+            {
+                "id": 16,
+                "name": "Olympic Park",
+                "category": "nature",
+                "coordinates": {
+                    "latitude": 37.520814,
+                    "longitude": 127.121458
+                },
+                "description": "Built for the 1988 Olympics, now a vast park with sculptures, walking paths, and sports facilities.",
+                "hours": "5:00 AM - 10:00 PM",
+                "admission": "Free",
+                "website": "http://www.kspo.or.kr",
+                "color": "#95e1d3",
+                "image": "https://jaewoojoung.github.io/tb/png/16.png",
+                "detailedDescription": "Olympic Park was built for the 1988 Summer Olympics and has since become one of Seoul's largest parks. The park features over 200 sculptures by international artists, making it an open-air sculpture museum. Historic sites include Mongchontoseong, an ancient earthen fortification from the Baekje period. The park offers various sports facilities, walking and jogging paths, and hosts concerts and cultural events throughout the year. The World Peace Gate stands as an iconic symbol of the Olympics."
+            },
+            {
+                "id": 17,
+                "name": "Jogyesa Temple",
+                "category": "culture",
+                "coordinates": {
+                    "latitude": 37.574166,
+                    "longitude": 126.981944
+                },
+                "description": "The chief temple of Korean Buddhism, beautiful during Buddha's birthday with thousands of lanterns.",
+                "hours": "4:00 AM - 9:00 PM",
+                "admission": "Free",
+                "website": "http://www.jogyesa.kr",
+                "color": "#4ecdc4",
+                "image": "https://jaewoojoung.github.io/tb/png/17.png",
+                "detailedDescription": "Jogyesa Temple is the chief temple of the Jogye Order of Korean Buddhism and a center of Zen Buddhism in Korea. Located in the heart of Seoul, the temple offers a peaceful sanctuary amid the bustling city. The temple is especially spectacular during Buddha's birthday celebrations when thousands of colorful lanterns fill the courtyard and surrounding streets. The main hall houses three giant golden Buddha statues, and the grounds feature 500-year-old trees that provide shade and tranquility."
+            },
+            {
+                "id": 18,
+                "name": "COEX Mall",
+                "category": "shopping",
+                "coordinates": {
+                    "latitude": 37.511395,
+                    "longitude": 127.058969
+                },
+                "description": "Asia's largest underground shopping mall featuring the famous Starfield Library and COEX Aquarium.",
+                "hours": "10:00 AM - 10:00 PM",
+                "admission": "Free (Aquarium: 28,000 KRW)",
+                "website": "http://www.coexmall.com",
+                "color": "#ffe66d",
+                "image": "https://jaewoojoung.github.io/tb/png/18.png",
+                "detailedDescription": "COEX Mall is Asia's largest underground shopping mall, located in the Gangnam district. The mall's centerpiece is the stunning Starfield Library, a two-story open public space with towering bookshelves that has become an Instagram sensation. The complex includes the COEX Aquarium, numerous restaurants, a movie theater, and the Kimchi Museum. Connected to the World Trade Center Seoul and COEX Convention Center, it serves as a major business and cultural hub."
+            },
+            {
+                "id": 19,
+                "name": "Seoul Forest",
+                "category": "nature",
+                "coordinates": {
+                    "latitude": 37.544495,
+                    "longitude": 127.037716
+                },
+                "description": "Large park with deer feeding area, butterfly conservatory, and beautiful walking trails along the Han River.",
+                "hours": "Open 24/7",
+                "admission": "Free",
+                "website": "http://seoulforest.or.kr",
+                "color": "#95e1d3",
+                "image": "https://jaewoojoung.github.io/tb/png/19.png",
+                "detailedDescription": "Seoul Forest is a large park that transformed from a royal hunting ground to Seoul's green lung. The park is divided into five themed areas including a deer park where visitors can feed deer, an ecological forest, a butterfly conservatory, and wetlands. The park features art installations, walking and cycling paths, and outdoor stages for performances. It's particularly popular among families and offers educational programs about urban ecology and sustainability."
+            },
+            {
+                "id": 20,
+                "name": "Changgyeonggung Palace",
+                "category": "palace",
+                "coordinates": {
+                    "latitude": 37.579977,
+                    "longitude": 126.994929
+                },
+                "description": "Often overlooked palace with beautiful gardens, greenhouse, and peaceful atmosphere away from crowds.",
+                "hours": "9:00 AM - 9:00 PM",
+                "admission": "1,000 KRW",
+                "website": "http://cgg.cha.go.kr",
+                "color": "#ff6b6b",
+                "image": "https://jaewoojoung.github.io/tb/png/20.png",
+                "detailedDescription": "Changgyeonggung Palace, often overshadowed by its larger neighbors, offers a more intimate and peaceful palace experience. Built in the 15th century, the palace features beautiful gardens, a historic greenhouse (the first Western-style greenhouse in Korea), and a large pond. The palace has a tragic history, having been downgraded to a park during Japanese occupation. Today, it's restored to its former glory and offers a quieter alternative to the busier palaces."
+            },
+            {
+                "id": 21,
+                "name": "Gyeongbokgung Palace",
+                "category": "palace",
+                "coordinates": {
+                    "latitude": 37.579617,
+                    "longitude": 126.977041
+                },
+                "description": "The largest and most iconic of Seoul's Five Grand Palaces, featuring stunning architecture and the famous changing of the guard ceremony.",
+                "hours": "9:00 AM - 6:00 PM",
+                "admission": "3,000 KRW",
+                "website": "http://www.royalpalace.go.kr",
+                "color": "#ff6b6b",
+                "image": "https://jaewoojoung.github.io/tb/png/21.png",
+                "detailedDescription": "Gyeongbokgung Palace, built in 1395, is the largest and most iconic of Seoul's Five Grand Palaces. The palace served as the main royal palace of the Joseon dynasty and showcases the pinnacle of Korean traditional architecture. Key attractions include the colorful changing of the guard ceremony, Geunjeongjeon (the throne hall), and Gyeonghoeru Pavilion set on an artificial lake. The National Palace Museum and National Folk Museum are located within the palace grounds."
+            }
+        ];
+
+        // Get place ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const placeId = parseInt(urlParams.get('id'));
+
+        // Find the place data
+        const place = places.find(p => p.id === placeId);
+
+        // Hide loading screen
+        function hideLoading() {
+            document.getElementById('loading-screen').classList.add('hide');
+        }
+
+        // Render place details
+        function renderPlaceDetails() {
+            const contentDiv = document.getElementById('content');
+            
+            if (!place) {
+                contentDiv.innerHTML = `
+                    <div class="error-container">
+                        <div class="error-content">
+                            <h1>Place Not Found</h1>
+                            <p>Sorry, we couldn't find the place you're looking for.</p>
+                            <a href="index.html" class="action-btn">Back to Home</a>
+                        </div>
+                    </div>
+                `;
+                hideLoading();
+                return;
+            }
+
+            // Update page title
+            document.title = `${place.name} - Seoul Tour Guide`;
+
+            // Render the place details
+            contentDiv.innerHTML = `
+                <!-- Hero Section -->
+                <section class="hero">
+                    <div class="hero-bg">
+                        <img src="${place.image}" alt="${place.name}">
+                    </div>
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <div class="container">
+                            <h1 class="place-title">${place.name}</h1>
+                            <span class="place-category">${place.category}</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Content Section -->
+                <section class="content-section">
+                    <div class="container">
+                        <!-- Description -->
+                        <div class="description-section">
+                            <h2>About ${place.name}</h2>
+                            <p>${place.detailedDescription || place.description}</p>
+                        </div>
+
+                        <!-- Info Grid -->
+                        <div class="content-grid">
+                            <!-- Basic Information -->
+                            <div class="info-card">
+                                <h2>Visit Information</h2>
+                                
+                                <div class="info-item">
+                                    <span class="info-icon">🕐</span>
+                                    <div class="info-content">
+                                        <h3>Opening Hours</h3>
+                                        <p>${place.hours}</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <span class="info-icon">💰</span>
+                                    <div class="info-content">
+                                        <h3>Admission</h3>
+                                        <p>${place.admission}</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <span class="info-icon">📍</span>
+                                    <div class="info-content">
+                                        <h3>Location</h3>
+                                        <p>${place.description}</p>
+                                    </div>
+                                </div>
+
+                                ${place.website ? `
+                                <div class="info-item">
+                                    <span class="info-icon">🌐</span>
+                                    <div class="info-content">
+                                        <h3>Website</h3>
+                                        <p><a href="${place.website}" target="_blank" style="color: #667eea;">${place.website}</a></p>
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+
+                            <!-- Tips & Recommendations -->
+                            <div class="info-card">
+                                <h2>Tips & Recommendations</h2>
+                                
+                                <div class="info-item">
+                                    <span class="info-icon">⭐</span>
+                                    <div class="info-content">
+                                        <h3>Best Time to Visit</h3>
+                                        <p>${getbestTimeToVisit(place)}</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <span class="info-icon">🚇</span>
+                                    <div class="info-content">
+                                        <h3>Getting There</h3>
+                                        <p>${getTransportInfo(place)}</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <span class="info-icon">📸</span>
+                                    <div class="info-content">
+                                        <h3>Photo Spots</h3>
+                                        <p>${getPhotoSpots(place)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Map -->
+                        <div class="map-container">
+                            <div id="detail-map"></div>
+                        </div>
+
+                        <!-- Weather Widget -->
+                        <div class="weather-widget" id="weather-widget">
+                            <h3>Current Weather in Seoul</h3>
+                            <div class="weather-loading">
+                                <div class="loader" style="width: 30px; height: 30px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=${place.coordinates.latitude},${place.coordinates.longitude}" target="_blank" class="action-btn">
+                                <span>🗺️</span> Open in Google Maps
+                            </a>
+                            ${place.website ? `
+                            <a href="${place.website}" target="_blank" class="action-btn secondary">
+                                <span>🌐</span> Visit Official Website
+                            </a>
+                            ` : ''}
+                            <button onclick="window.print()" class="action-btn secondary">
+                                <span>🖨️</span> Print This Page
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            // Initialize map
+            initializeMap();
+            
+            // Load weather
+            loadWeather();
+            
+            // Hide loading screen
+            setTimeout(hideLoading, 500);
+        }
+
+        // Initialize map
+        function initializeMap() {
+            const map = L.map('detail-map').setView([place.coordinates.latitude, place.coordinates.longitude], 15);
+            
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors © CARTO',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Add marker
+            const placeIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="background: ${place.color}; width: 40px; height: 40px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"></div>`,
+                iconSize: [40, 40],
+                iconAnchor: [20, 20]
+            });
+
+            L.marker([place.coordinates.latitude, place.coordinates.longitude], { icon: placeIcon })
+                .addTo(map)
+                .bindPopup(`<strong>${place.name}</strong>`);
+        }
+
+        // Load weather
+        function loadWeather() {
+            fetch('https://api.weatherapi.com/v1/current.json?key=ad8caecea06c43d1912181938230407&q=Seoul')
+                .then(response => response.json())
+                .then(data => {
+                    const weatherWidget = document.getElementById('weather-widget');
+                    weatherWidget.innerHTML = `
+                        <h3>Current Weather in Seoul</h3>
+                        <div class="weather-info">
+                            <img src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" class="weather-icon">
+                            <div>
+                                <div class="weather-temp">${Math.round(data.current.temp_c)}°C</div>
+                                <div class="weather-desc">${data.current.condition.text}</div>
+                            </div>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error loading weather:', error);
+                });
+        }
+
+        // Helper functions for tips
+        function getbestTimeToVisit(place) {
+            const tips = {
+                'palace': 'Morning hours (9-11 AM) for fewer crowds and better photos. Spring and autumn offer the best weather.',
+                'shopping': 'Afternoon to evening (2-8 PM) when all shops are open and the area is most vibrant.',
+                'culture': 'Weekday mornings for a quieter experience. Check for special exhibitions or events.',
+                'nature': 'Early morning or late afternoon for the best lighting and cooler temperatures.',
+                'business': 'Regular business hours (9 AM - 6 PM) on weekdays.'
+            };
+            return tips[place.category] || 'Check opening hours and visit during off-peak times for a better experience.';
+        }
+
+        function getTransportInfo(place) {
+            const transport = {
+                1: 'Take the subway to Suwon Station, then bus or taxi to the business district.',
+                2: 'Cable car from Myeongdong or bus from various locations. Walking up through Namsan Park is also popular.',
+                3: 'Myeongdong Station (Line 4) Exit 6, 7, or 8.',
+                4: 'Anguk Station (Line 3) Exit 2, walk 300m.',
+                5: 'Dongdaemun History & Culture Park Station (Lines 2, 4, 5).',
+                6: 'Anguk Station (Line 3) Exit 3, walk 5 minutes.',
+                7: 'Gangnam Station (Line 2) or Sinnonhyeon Station (Line 9).',
+                8: 'Chungmuro Station (Lines 3, 4) or cable car from base.',
+                9: 'Anguk Station (Line 3) Exit 6 or Jonggak Station (Line 1).',
+                10: 'Multiple access points along Line 2. Ttukseom Resort Station for main facilities.',
+                11: 'Jamsil Station (Lines 2, 8) Exit 1 or 2.',
+                12: 'Hoehyeon Station (Line 4) Exit 5.',
+                13: 'Samgakji Station (Lines 4, 6) Exit 12.',
+                14: 'Hongik University Station (Line 2, Airport Railroad, Gyeongui-Jungang Line).',
+                15: 'City Hall Station (Lines 1, 2) Exit 2 or 12.',
+                16: 'Olympic Park Station (Line 5) or Mongchontoseong Station (Line 8).',
+                17: 'Jonggak Station (Line 1) Exit 2.',
+                18: 'Samseong Station (Line 2) directly connected.',
+                19: 'Seoul Forest Station (Bundang Line) or Ttukseom Station (Line 2).',
+                20: 'Hyehwa Station (Line 4) Exit 3.',
+                21: 'Gyeongbokgung Station (Line 3) Exit 5 or Gwanghwamun Station (Line 5).'
+            };
+            return transport[place.id] || 'Check public transport apps for the best route from your location.';
+        }
+
+        function getPhotoSpots(place) {
+            const photoSpots = {
+                'palace': 'Main gate, throne hall, and traditional architecture details. Rent hanbok for authentic photos.',
+                'shopping': 'Neon signs at night, street food stalls, and bustling shopping streets.',
+                'culture': 'Architectural details, exhibitions, and cultural performances.',
+                'nature': 'Scenic viewpoints, seasonal flowers, and sunset/sunrise spots.',
+                'business': 'Modern architecture and corporate buildings.'
+            };
+            return photoSpots[place.category] || 'Look for unique architectural features and local atmosphere.';
+        }
+
+        // Render the page
+        renderPlaceDetails();
+    </script>
+</body>
+</html>
